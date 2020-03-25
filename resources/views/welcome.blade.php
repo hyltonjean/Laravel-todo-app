@@ -84,7 +84,7 @@
 
     <div class="content">
       <div class="title m-b-md">
-        {{env('APP_NAME')}}
+        Todos App
       </div>
     </div>
   </div>
