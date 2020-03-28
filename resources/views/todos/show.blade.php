@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Single Todo | {{$todo->name}}
+@endsection
+
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -11,6 +15,10 @@
         <div class="card-body">
           {{$todo->description}}
         </div>
+      </div>
+      <div class="wrapper py-2">
+        <a href="/todos/{{$todo->id}}/edit" class="btn btn-info">Edit</a>
+        <a href="/todos/{{$todo->id}}/delete" class="btn btn-danger">Delete</a>
       </div>
     </div>
   </div>

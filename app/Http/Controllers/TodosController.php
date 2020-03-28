@@ -34,7 +34,7 @@ class TodosController extends Controller
    */
   public function create()
   {
-    //
+    return view('todos.create');
   }
 
   /**
@@ -43,9 +43,25 @@ class TodosController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store()
   {
-    //
+    $this->validate(request(), [
+      'name' => 'required|max:20',
+      'description' => 'required'
+    ]);
+
+    $data = request()->all();
+
+    $todo = new Todo();
+    $todo->name = $data['name'];
+    $todo->description = $data['description'];
+    $todo->completed = false;
+
+    $todo->save();
+
+    session()->flash('success', 'Todo created successfully');
+
+    return redirect('/todos');
   }
 
   /**
@@ -54,9 +70,9 @@ class TodosController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show(Todo $todo)
   {
-    return view('todos.show')->with('todo', Todo::find($id));
+    return view('todos.show')->withTodo($todo);
   }
 
   /**
@@ -65,9 +81,9 @@ class TodosController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit(Todo $todo)
   {
-    //
+    return view('todos.edit')->withTodo($todo);
   }
 
   /**
@@ -77,9 +93,23 @@ class TodosController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Todo $todo)
   {
-    //
+    $this->validate(request(), [
+      'name' => 'required|max:20',
+      'description' => 'required'
+    ]);
+
+    $data = request()->all();
+
+    $todo->name = $data['name'];
+    $todo->description = $data['description'];
+
+    $todo->save();
+
+    session()->flash('success', 'Todo updated successfully');
+
+    return redirect('/todos');
   }
 
   /**
@@ -88,8 +118,23 @@ class TodosController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Todo $todo)
   {
-    //
+    $todo->delete();
+
+    session()->flash('success', 'Todo deleted successfully');
+
+    return redirect('/todos');
+  }
+
+  public function completed(Todo $todo)
+  {
+    $todo->completed = true;
+
+    $todo->save();
+
+    session()->flash('success', 'Todo has been completed');
+
+    return redirect('/todos');
   }
 }

@@ -8,7 +8,9 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
+  <title>
+    @yield('title')
+  </title>
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
@@ -25,8 +27,8 @@
   <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
-          Todos App
+        <a class="navbar-brand" href="{{ url('/todos') }}">
+          Todo App
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -36,7 +38,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav mr-auto">
-
+            <li class="nav-item">
+              <a class="nav-link" href="/new-todos">Create Todos</a>
+            </li>
           </ul>
 
           <!-- Right Side Of Navbar -->
@@ -76,7 +80,14 @@
     </nav>
 
     <main class="py-4">
-      @yield('content')
+      <div class="container">
+        @if(session()->has('success'))
+        <div class="alert alert-success">
+          {{session()->get('success')}}
+        </div>
+        @endif
+        @yield('content')
+      </div>
     </main>
   </div>
 </body>

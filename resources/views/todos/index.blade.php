@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Todo List
+@endsection
+
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -17,7 +21,12 @@
             @foreach($todos as $todo)
             <li class="list-group-item text-center text-secondary">
               {{$todo->name}}
-              <a href="todos/{{$todo->id}}" class="btn btn-primary btn-sm float-right">View</a>
+              <div class="wrapper float-right">
+                <a href="todos/{{$todo->id}}" class="btn btn-primary btn-sm">View</a>
+                @if(!$todo->completed)
+                <a href="todos/{{$todo->id}}/completed" class="btn btn-warning btn-sm ml-2">Complete</a>
+                @endif
+              </div>
             </li>
             @endforeach
           </ul>
